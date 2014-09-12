@@ -1,6 +1,8 @@
 import requests
 import json
 
+def checkResponse(response,checklist):
+
 
 def login(session):
     request_file = open("request/login.req")
@@ -14,8 +16,7 @@ def login(session):
     login_request["post_data"]["userid"] = user_data["user"]
     login_request["post_data"]["pass"] = user_data["pass"]
 
-
-    session.post(login_request["url"],login_request["post_data"])
-
+    response = session.post(login_request["url"],login_request["post_data"])
+    return checkResponse(response,login_request["responses"])
 login(0)
 #session = requests.session()
