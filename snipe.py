@@ -1,6 +1,8 @@
 import requests
 import json
 
+from lxml import html
+
 
 def login(session):
     request_file = open("request/login.req")
@@ -14,8 +16,15 @@ def login(session):
     login_request["post_data"]["userid"] = user_data["user"]
     login_request["post_data"]["pass"] = user_data["pass"]
 
+    referer = session.get(login_request['prefetch'])
+    page = session.get(login_request['url'])
+    dom = html.fromstring(page.text)
 
-    session.post(login_request["url"],login_request["post_data"])
+    input_fields = dom.xpath('//form[@name="SignInForm"]//input')
+    
+    for field in input_fields:
+        print(field.attrib['name'],': ',field.attrib['value'])
+    #session.post(login_request["url"],login_request["post_data"])
 
-login(0)
-#session = requests.session()
+session = requests.session()
+login(session)

@@ -1,5 +1,6 @@
 {
-    "url": "",
+    "prefetch": "http://ebay.com",
+    "url": "http://signin.ebay.com/aw-cgi/eBayISAPI.dll?SignIn",
     "post_data":
     {
         "MfcISAPICommand": "SignInWelcome",
