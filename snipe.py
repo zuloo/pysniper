@@ -3,6 +3,7 @@ import json
 
 from lxml import html
 
+def checkResponse(response,checklist):
 
 def login(session):
     request_file = open("request/login.req")
@@ -25,6 +26,7 @@ def login(session):
     for field in input_fields:
         print(field.attrib['name'],': ',field.attrib['value'])
     #session.post(login_request["url"],login_request["post_data"])
+    #return checkResponse(response,login_request["responses"])
 
 session = requests.session()
 login(session)
