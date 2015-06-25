@@ -1,0 +1,50 @@
+[
+    {
+        "method": "GET",
+        "url": "http://www.ebay.de"
+    },
+    {   
+        "method": "GET",
+        "url": "https://signin.ebay.de/aw-cgi/eBayISAPI.dll?SignIn",
+        "parse_form": "//form[@name=\"SignInForm\"]//input"
+    },
+    {
+        "method": "POST",
+        "url": "https://signin.ebay.de/aw-cgi/eBayISAPI.dll?SignIn",
+        "debug": true,
+        "output": false,
+        "post_data":
+        {
+            "userid": "{% user %}",
+            "pass": "{% pass %}"
+        },
+        "tests":
+        [
+            {
+                "xpath":   "//td[@class=\"contentTd_space\"]/b",
+                "match":    "Wenn Sie diese Seite sehen, bedeutet das, dass Ihre Browsereinstellungen die automatische Umleitung zu einer neuen URL verhindern.",
+                "continue":   true,
+                "message":  "Logged in successfully."
+            },
+            {
+                "xpath":   "//div[@class=\"errf\"]",
+                "match":    "*Ihr Nutzername oder Ihr Passwort ist falsch.",
+                "continue":   false,
+                "message":  "Login failed: Username or password wrong."
+            }
+        ]
+    },
+    {
+        "method": "GET", 
+        "url": "http://my.ebay.de/ws/eBayISAPI.dll?MyeBay",
+        "tests":
+        [
+            {
+                "xpath": "//span[@id=\"useridhidden\"]",
+                "match": "{% user %}",
+                "continue": true,
+                "message": "Session established."
+            }
+        ]
+    }
+]

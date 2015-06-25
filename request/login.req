@@ -1,42 +1,7 @@
 {
-    "prefetch": "http://ebay.com",
-    "url": "http://signin.ebay.com/aw-cgi/eBayISAPI.dll?SignIn",
-    "post_data":
-    {
-        "MfcISAPICommand": "SignInWelcome",
-        "keepMeSignInOption": "1",
-        "inputversion": "2",
-        "co_partnerId": "2",
-        "UsingSSL": "1",
-        "bUrlPrfx": "",
-        "bhid":     "",
-        "hmid":     "",
-        "htmid":    "",
-        "i1":       "-1",
-        "kdata":    "",
-        "kgct":     "",
-        "kgstate":  "",
-        "kgupg":    "1",
-        "kgver":    "1",
-        "lse":      "false",
-        "lsv":      "",
-        "mid":      "",
-        "omid":     "",
-        "pa1":      "",
-        "pa2":      "",
-        "pa3":      "",
-        "pageType": "-1",
-        "pass":     "%password%",
-        "pp":       "",
-        "rhr":      "f",
-        "rqid":     "",
-        "rtmData":  "",
-        "ru":       "http://www.ebay.de/",
-        "sgnBt":    "Einloggen",
-        "siteid":   "77",
-        "userid":   "%email%",
-        "usid":     ""
-    },
+    "prefetch_url": "https://ebay.de",
+    "login_url": "https://signin.ebay.de/aw-cgi/eBayISAPI.dll?SignIn",
+    "after_login_url": "https://my.ebay.de/ws/eBayISAPI.dll?MyeBay",
     "default_response": 
     {
         "status":   false,
@@ -45,14 +10,14 @@
     "responses": 
     [
         {
-            "xparse":   "",
-            "match":    "",
+            "xpath":   "//h1/span[@class=\"page-domain\"]",
+            "match":    "Mein eBay: ",
             "status":   true,
             "message":  "Logged in successfully."
         },
         {
-            "xparse":   "",
-            "match":    "",
+            "xpath":   "//span[@id=\"errr\"]",
+            "match":    "Ihre E-Mail/Ihr Nutzername oder Ihr Passwort ist falsch.",
             "status":   false,
             "message":  "Login failed: Username or password wrong."
         }
