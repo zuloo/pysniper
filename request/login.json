@@ -6,7 +6,12 @@
     {   
         "method": "GET",
         "url": "https://signin.ebay.de/aw-cgi/eBayISAPI.dll?SignIn",
-        "parse_form": "//form[@name=\"SignInForm\"]//input"
+        "parse":
+        {
+            "form": "//form[@name=\"SignInForm\"]//input",
+            "post": true,
+            "print": true
+        }
     },
     {
         "method": "POST",

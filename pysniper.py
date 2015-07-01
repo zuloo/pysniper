@@ -15,6 +15,8 @@ def do_request(request_list, session=None, data=None, config=None):
     # create session if none given
     session = session or requests.Session()
 
+    data = {}
+
     def replace_conf_var(string):
         def replace_variable(match):
             return config.get(re.sub(r'[^a-zA-Z0-9]', '', match.group()), '')
@@ -54,14 +56,26 @@ def do_request(request_list, session=None, data=None, config=None):
         dom = html.fromstring(res.text)
 
         # handle response - parse form
-        if req.get('parse_form'):
-            input_fields = dom.xpath(req.get('parse_form'))
+        if req.get('parse'):
+            variables = {}
+            parser = req.get('parse')
+            if parser.get('form'):
+                input_fields = dom.xpath(parser.get('form'))
+                for field in input_fields:
+                    if field.get('name'):
+                        variables[field.get('name')] = field.get('value', '')
 
-            # populate post data from xpath'ed input fields
-            post_data={}
-            for field in input_fields:
-                if field.get('name'):
-                    post_data[field.get('name')] = field.get('value', '')
+            if parser.get('post',False):
+                # populate post data from xpath'ed input fields
+                post_data = variables
+
+            if parser.get('return',False):
+                data = variables
+
+            if parser.get('print',False):
+                for key in variables:
+                    print("{}: {}".format(key,variables.get(key,'')))
+
 
         stop = False
         if req.get('tests'):
@@ -91,7 +105,9 @@ def do_request(request_list, session=None, data=None, config=None):
                         if not test.get('continue'): stop = True
         
         if stop:
-            return session
+            break
+
+    return session
 
 def load_json(file_name):
     json_data = {}
@@ -103,6 +119,6 @@ def load_json(file_name):
     return json_data
 
 login_request = load_json("request/login.json")
-user_data = load_json("config/user.cfgg")
+user_data = load_json("config/user.cfg")
 
 do_request(login_request,config=user_data)
